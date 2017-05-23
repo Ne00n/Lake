@@ -162,6 +162,7 @@ class Lake {
       $result_params = array_merge($this->var,$values);
       $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
       if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }
       $stmt->close();
