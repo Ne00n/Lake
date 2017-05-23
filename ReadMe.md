@@ -1,6 +1,6 @@
 # Lake
 
-Simple Wrapper for MySQLi
+Simple Wrapper for MySQLi.
 
 Examples:
 
@@ -14,10 +14,19 @@ if ($Lake->getSuccess() == false) {
   //Use $Lake->getErrors() for more details
 }
 
-$insertID = $Lake->INSERT('Users')->INTO(array('Name' => 'Test'))->VAR('s')->DONE();
-$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
-$Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
+```
 
+INSERT:
+```
+$insertID = $Lake->INSERT('Users')->INTO(array('Name' => 'Test'))->VAR('s')->DONE();
+```
+SELECT:
+```
+$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
+```
+DELETE:
+```
+$Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
 ```
 
 Currently Supports:
