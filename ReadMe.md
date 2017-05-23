@@ -1,4 +1,4 @@
-#Lake
+# Lake
 
 Examples:
 
@@ -17,3 +17,11 @@ $results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' =>
 $Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
 
 ```
+
+Currently Supports:
+
+- INSERT
+- SELECT
+- DELETE
+- WHERE
+- OR
