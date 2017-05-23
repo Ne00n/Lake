@@ -1,5 +1,7 @@
 # Lake
 
+Simple Wrapper for MySQLi
+
 Examples:
 
 ```
