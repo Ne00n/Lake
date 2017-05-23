@@ -31,7 +31,7 @@ DELETE:
 $Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
 ```
 
-Currently Supports:
+Currently Support for:
 
 - INSERT
 - SELECT
