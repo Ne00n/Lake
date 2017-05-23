@@ -2,6 +2,8 @@
 
 Simple Wrapper for MySQLi.
 
+[![Build Status](https://travis-ci.org/Ne00n/Lake.svg?branch=master)](https://travis-ci.org/Ne00n/Lake)
+
 Examples:
 
 ```
