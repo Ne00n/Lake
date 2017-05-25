@@ -28,11 +28,14 @@
       $insertIDSecond = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Bob'))->VAR('s')->DONE();
       $this->assertEquals($insertIDSecond,2);
       $this->assertEquals($this->validateStatus(),true);
-      //SELECT, by ID and Name
+      //SELECT, by ID OR Name
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
       $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test')));
       $this->assertEquals($this->validateStatus(),true);
-      unset($results);
+      //SELECT, by ID AND Name
+      $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID,'Name' => 'Test'))->VAR('is')->DONE();
+      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test')));
+      $this->assertEquals($this->validateStatus(),true);
       //by ID only
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
       $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test')));
