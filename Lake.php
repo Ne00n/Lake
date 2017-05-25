@@ -105,25 +105,20 @@ class Lake {
       $values = array();
       $sql = "SELECT ".$this->select." FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
-      $stmt = $this->Database->prepare($sql);
       $this->sqlRaw = $sql;
+      $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
       if (!empty($this->whereRaw)) {
-
-        foreach($this->whereRaw as $key => $value) {
-            $values[$key] = &$this->whereRaw[$key];
-        }
-
-        $result_params = array_merge($this->var,$values);
-        $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
+        $resultParams = $this->generateParams($this->whereRaw);
+        $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
-
       }
 
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }
       $result = $stmt->get_result();
+
       //Build the Array
       while ($row = $result->fetch_assoc()) {
         $response[] = $row;
@@ -136,16 +131,12 @@ class Lake {
       //INSERT REQUEST
       $values = array();
       $sql = "INSERT INTO ".$this->insert."(".$this->into.") VALUES (".$this->buildPlaceHolders($this->into).")";
-      $stmt = $this->Database->prepare($sql);
       $this->sqlRaw = $sql;
+      $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
-      foreach($this->intoRaw as $key => $value) {
-          $values[$key] = &$this->intoRaw[$key];
-      }
-
-      $result_params = array_merge($this->var,$values);
-      $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
+      $resultParams = $this->generateParams($this->intoRaw);
+      $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
       if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
 
       $result = $stmt->execute();
@@ -157,23 +148,16 @@ class Lake {
       return $insertID;
     case 'delete':
       //DELETE REQUEST
-      $values = array();
       $sql = "DELETE FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
-      $stmt = $this->Database->prepare($sql);
       $this->sqlRaw = $sql;
+      $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
       if (!empty($this->whereRaw)) {
-
-        foreach($this->whereRaw as $key => $value) {
-            $values[$key] = &$this->whereRaw[$key];
-        }
-
-        $result_params = array_merge($this->var,$values);
-        $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
+        $resultParams = $this->generateParams($this->whereRaw);
+        $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
-
       }
 
       $result = $stmt->execute();
@@ -183,6 +167,15 @@ class Lake {
       $this->cleanUP();
       break;
     }
+  }
+
+  private function generateParams($input) {
+    $values = array();
+    foreach($input as $key => $value) {
+        $values[$key] = &$input[$key];
+    }
+    $resultParams = array_merge($this->var,$values);
+    return $resultParams;
   }
 
   private function cleanUP() {
