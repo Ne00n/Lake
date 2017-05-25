@@ -31,6 +31,9 @@
       $insertIDThird = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Lisa'))->VAR('s')->DONE();
       $this->assertEquals($insertIDThird,3);
       $this->assertEquals($this->validateStatus(),true);
+      $insertIDFourth = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Mint'))->VAR('s')->DONE();
+      $this->assertEquals($insertIDFourth,4);
+      $this->assertEquals($this->validateStatus(),true);
       //SELECT, by ID OR Name
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
       $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test')));
@@ -45,13 +48,20 @@
       $this->assertEquals($this->validateStatus(),true);
       //all entries
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->DONE();
-      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Bob'),2 => array('ID' => 3,'Name' => 'Lisa')));
+      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Bob'),2 => array('ID' => 3,'Name' => 'Lisa'),3 => array('ID' => 4,'Name' => 'Mint')));
       $this->assertEquals($this->validateStatus(),true);
       //DELETE by ID
       $this->Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
       $this->assertEquals($this->validateStatus(),true);
       //Check if nothing is left by userID 1
       $results = $this->Lake->SELECT(array('ID'))->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
+      $this->assertEquals($results,array());
+      $this->assertEquals($this->validateStatus(),true);
+      //DELETE by ID OR ID
+      $this->Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertIDSecond))->OR()->WHERE(array('ID' => $insertIDThird))->VAR('ii')->DONE();
+      $this->assertEquals($this->validateStatus(),true);
+      //Check if nothing is left
+      $results = $this->Lake->SELECT(array('ID'))->FROM('Users')->WHERE(array('ID' => $insertIDSecond))->OR()->WHERE(array('ID' => $insertIDThird))->VAR('ii')->DONE();
       $this->assertEquals($results,array());
       $this->assertEquals($this->validateStatus(),true);
       //DELETE everything from Users

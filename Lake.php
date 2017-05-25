@@ -19,6 +19,7 @@ class Lake {
   private $where;
   private $whereRaw;
   private $var;
+  private $sqlRaw;
 
   public function __construct($dbHost,$dbUser,$dbPassword,$dbDatabase) {
     $this->dbHost = $dbHost;
@@ -81,7 +82,7 @@ class Lake {
         $this->where .= $key.' = ? AND ';
       }
       $i++;
-      $this->whereRaw[$key] = $value;
+      $this->whereRaw[] = $value;
     }
     return $this;
   }
@@ -105,6 +106,7 @@ class Lake {
       $sql = "SELECT ".$this->select." FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       $stmt = $this->Database->prepare($sql);
+      $this->sqlRaw = $sql;
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
       if (!empty($this->whereRaw)) {
@@ -135,6 +137,7 @@ class Lake {
       $values = array();
       $sql = "INSERT INTO ".$this->insert."(".$this->into.") VALUES (".$this->buildPlaceHolders($this->into).")";
       $stmt = $this->Database->prepare($sql);
+      $this->sqlRaw = $sql;
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
       foreach($this->intoRaw as $key => $value) {
@@ -158,6 +161,7 @@ class Lake {
       $sql = "DELETE FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       $stmt = $this->Database->prepare($sql);
+      $this->sqlRaw = $sql;
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
       if (!empty($this->whereRaw)) {
@@ -211,6 +215,10 @@ class Lake {
 
   public function getErrors() {
     return $this->errors;
+  }
+
+  public function getSQLRaw() {
+    return $this->sqlRaw;
   }
 
   public function get() {

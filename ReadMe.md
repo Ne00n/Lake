@@ -52,6 +52,13 @@ DELETE FROM Users WHERE ID = 1;
 ```
 $Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
 ```
+DELETE FROM Users WHERE ID = 2 OR ID = 3;
+```
+$where1 = array('ID' => 2)
+$where2 = array('ID' => 3);
+
+$Lake->DELETE()->FROM('Users')->WHERE($where1)->OR()->WHERE($where2)->VAR('ii')->DONE();
+```
 DELETE FROM Users;
 ```
 $Lake->DELETE()->FROM('Users')->DONE();
@@ -62,5 +69,4 @@ Currently Support for:
 - INSERT
 - SELECT
 - DELETE
-- WHERE
-- OR
+- WHERE/OR/AND
