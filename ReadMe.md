@@ -24,15 +24,25 @@ $insertID = $Lake->INSERT('Users')->INTO(array('Name' => 'Test'))->VAR('s')->DON
 ```
 SELECT ID,Name FROM Users WHERE ID = 1 OR Name = "Test";
 ```
-$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
+$select = array('ID','Name');
+$where1 = array('ID' => 1)
+$where2 = array('Name' => 'Test');
+
+$results = $Lake->SELECT($select)->FROM('Users')->WHERE(where1)->OR()->WHERE(where2)->VAR('is')->DONE();
 ```
 SELECT ID,Name FROM Users WHERE ID = 1 AND Name = "Test";
 ```
-$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID,'Name' => 'Test'))->VAR('is')->DONE();
+$select = array('ID','Name');
+$where = array('ID' => 1,'Name' => 'Test');
+
+$results = $Lake->SELECT($select)->FROM('Users')->WHERE($where)->VAR('is')->DONE();
 ```
 SELECT ID,Name FROM Users WHERE ID = 1;
 ```
-$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
+$select = array('ID','Name');
+$where = array('ID' => 1);
+
+$results = $Lake->SELECT($select)->FROM('Users')->WHERE($where)->VAR('i')->DONE();
 ```
 SELECT ID,Name FROM Users;
 ```
