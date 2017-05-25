@@ -107,16 +107,16 @@ class Lake {
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
-      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
+      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams($this->whereRaw);
         $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
-        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
       $result = $stmt->execute();
-      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }
+      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
       $result = $stmt->get_result();
 
       //Build the Array
@@ -133,14 +133,14 @@ class Lake {
       $sql = "INSERT INTO ".$this->insert."(".$this->into.") VALUES (".$this->buildPlaceHolders($this->into).")";
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
-      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
+      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
 
       $resultParams = $this->generateParams($this->intoRaw);
       $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
-      if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+      if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
 
       $result = $stmt->execute();
-      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }
+      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
       $insertID = $this->Database->insert_id;
       $stmt->close();
 
@@ -152,16 +152,16 @@ class Lake {
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
-      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
+      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams($this->whereRaw);
         $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
-        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
       $result = $stmt->execute();
-      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }
+      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
       $stmt->close();
 
       $this->cleanUP();
