@@ -107,13 +107,17 @@ class Lake {
       $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
-      foreach($this->whereRaw as $key => $value) {
-          $values[$key] = &$this->whereRaw[$key];
-      }
+      if (!empty($this->whereRaw)) {
 
-      $result_params = array_merge($this->var,$values);
-      $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
-      if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+        foreach($this->whereRaw as $key => $value) {
+            $values[$key] = &$this->whereRaw[$key];
+        }
+
+        $result_params = array_merge($this->var,$values);
+        $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
+        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+
+      }
 
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }
@@ -151,17 +155,22 @@ class Lake {
     case 'delete':
       //DELETE REQUEST
       $values = array();
-      $sql = "DELETE FROM ".$this->from." WHERE ".$this->where;
+      $sql = "DELETE FROM ".$this->from;
+      if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; }
 
-      foreach($this->whereRaw as $key => $value) {
-          $values[$key] = &$this->whereRaw[$key];
-      }
+      if (!empty($this->whereRaw)) {
 
-      $result_params = array_merge($this->var,$values);
-      $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
-      if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+        foreach($this->whereRaw as $key => $value) {
+            $values[$key] = &$this->whereRaw[$key];
+        }
+
+        $result_params = array_merge($this->var,$values);
+        $result = call_user_func_array(array($stmt, 'bind_param'), $result_params);
+        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; }
+
+      }
 
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; }

@@ -25,10 +25,13 @@ $insertID = $Lake->INSERT('Users')->INTO(array('Name' => 'Test'))->VAR('s')->DON
 SELECT:
 ```
 $results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
+$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
+$results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->DONE();
 ```
 DELETE:
 ```
 $Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
+$Lake->DELETE()->FROM('Users')->DONE();
 ```
 
 Currently Support for:
