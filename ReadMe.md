@@ -28,7 +28,7 @@ $select = array('ID','Name');
 $where1 = array('ID' => 1)
 $where2 = array('Name' => 'Test');
 
-$results = $Lake->SELECT($select)->FROM('Users')->WHERE(where1)->OR()->WHERE(where2)->VAR('is')->DONE();
+$results = $Lake->SELECT($select)->FROM('Users')->WHERE($where1)->OR()->WHERE($where2)->VAR('is')->DONE();
 ```
 SELECT ID,Name FROM Users WHERE ID = 1 AND Name = "Test";
 ```
