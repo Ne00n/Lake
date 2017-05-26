@@ -66,7 +66,7 @@ $Lake->DELETE()->FROM('Users')->DONE();
 
 If you need more examples, take a look into: /tests/Main.php
 
-Note: Only the User input is parametrized, not the Table/Columns, do not use any User input for those!<br />
+Note: Only the Variables get parametrized (e.g. 2,3,Test), not the Table/Columns, do not use any User input for those!<br />
 MySQLi does not support those to be parametrized because of certain reasons: https://stackoverflow.com/questions/11312737/can-i-parameterize-the-table-name-in-a-prepared-statement
 
 Currently Support for:
