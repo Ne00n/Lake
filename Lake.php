@@ -102,7 +102,6 @@ class Lake {
     switch ($this->type) {
     case 'select':
       //SELECT REQUEST
-      $values = array();
       $sql = "SELECT ".$this->select." FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       $this->sqlRaw = $sql;
@@ -129,7 +128,6 @@ class Lake {
       return $response;
     case 'insert':
       //INSERT REQUEST
-      $values = array();
       $sql = "INSERT INTO ".$this->insert."(".$this->into.") VALUES (".$this->buildPlaceHolders($this->into).")";
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
