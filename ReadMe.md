@@ -64,6 +64,8 @@ DELETE FROM Users;
 $Lake->DELETE()->FROM('Users')->DONE();
 ```
 
+If you need more examples, take a look into: /tests/Main.php
+
 Currently Support for:
 
 - INSERT
