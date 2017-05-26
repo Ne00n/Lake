@@ -25,7 +25,7 @@ $insertID = $Lake->INSERT('Users')->INTO(array('Name' => 'Test'))->VAR('s')->DON
 SELECT ID,Name FROM Users WHERE ID = 1 OR Name = "Test";
 ```
 $select = array('ID','Name');
-$where1 = array('ID' => 1)
+$where1 = array('ID' => 1);
 $where2 = array('Name' => 'Test');
 
 $results = $Lake->SELECT($select)->FROM('Users')->WHERE($where1)->OR()->WHERE($where2)->VAR('is')->DONE();
@@ -54,7 +54,7 @@ $Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE(
 ```
 DELETE FROM Users WHERE ID = 2 OR ID = 3;
 ```
-$where1 = array('ID' => 2)
+$where1 = array('ID' => 2);
 $where2 = array('ID' => 3);
 
 $Lake->DELETE()->FROM('Users')->WHERE($where1)->OR()->WHERE($where2)->VAR('ii')->DONE();
