@@ -11,7 +11,7 @@ include 'Lake.php';
 
 $Lake = new Lake('127.0.0.1','user','password','database');
 
-if ($Lake->getSuccess() == false) {
+if ($Lake->getSuccess() === false) {
   die('MySQL Connection failed');
   //Use $Lake->getErrors() for more details
 }
