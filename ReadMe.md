@@ -50,7 +50,7 @@ $results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->DONE();
 ```
 UPDATE Users SET Name = "Fabian" WHERE ID = 2;
 ```
-$this->Lake->UPDATE('Users')->SET(array('Name' => 'Fabian'))->WHERE(array('ID' => 2))->VAR('si')->DONE();
+$Lake->UPDATE('Users')->SET(array('Name' => 'Fabian'))->WHERE(array('ID' => 2))->VAR('si')->DONE();
 ```
 DELETE FROM Users WHERE ID = 1;
 ```
