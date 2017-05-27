@@ -12,6 +12,9 @@ class Lake {
   //input
   private $type;
   private $insert;
+  private $update;
+  private $set;
+  private $setRaw;
   private $select;
   private $into;
   private $intoRaw;
@@ -40,6 +43,26 @@ class Lake {
   public function INSERT($input) {
     $this->type = 'insert';
     $this->insert = $input;
+    return $this;
+  }
+
+  public function UPDATE($input) {
+    $this->type = 'update';
+    $this->update = $input;
+    return $this;
+  }
+
+  public function SET($input) {
+    $i = 1;
+    foreach ($input as $key => $value) {
+      if ($i == count($input)) {
+        $this->set .= $key.' = ?';
+      } else {
+        $this->set .= $key.' = ?,';
+      }
+      $i++;
+    }
+    $this->setRaw = $input;
     return $this;
   }
 
@@ -144,6 +167,26 @@ class Lake {
 
       $this->cleanUP();
       return $insertID;
+    case 'update':
+      //UPDATE REQUEST
+      $sql = "UPDATE ".$this->update." SET ".$this->set;
+      if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
+      $this->sqlRaw = $sql;
+      $stmt = $this->Database->prepare($sql);
+      if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
+
+      if (!empty($this->whereRaw)) {
+        $resultParams = $this->generateParams(array_merge($this->setRaw,$this->whereRaw));
+        $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
+        if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
+      }
+
+      $result = $stmt->execute();
+      if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
+      $stmt->close();
+
+      $this->cleanUP();
+      break;
     case 'delete':
       //DELETE REQUEST
       $sql = "DELETE FROM ".$this->from;

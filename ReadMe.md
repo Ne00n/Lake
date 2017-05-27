@@ -48,6 +48,10 @@ SELECT ID,Name FROM Users;
 ```
 $results = $Lake->SELECT(array('ID','Name'))->FROM('Users')->DONE();
 ```
+UPDATE Users SET Name = "Fabian" WHERE ID = 2;
+```
+$this->Lake->UPDATE('Users')->SET(array('Name' => 'Fabian'))->WHERE(array('ID' => 2))->VAR('si')->DONE();
+```
 DELETE FROM Users WHERE ID = 1;
 ```
 $Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
@@ -73,5 +77,6 @@ Currently Support for:
 
 - INSERT
 - SELECT
+- UPDATE
 - DELETE
 - WHERE/OR/AND

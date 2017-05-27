@@ -46,13 +46,16 @@
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertIDSecond))->VAR('i')->DONE();
       $this->assertEquals($results,array(0 => array('ID' => 2,'Name' => 'Bob')));
       $this->assertEquals($this->validateStatus(),true);
+      //UPDATE columns
+      $this->Lake->UPDATE('Users')->SET(array('Name' => 'Fabian'))->WHERE(array('ID' => 2))->VAR('si')->DONE();
+      $this->assertEquals($this->validateStatus(),true);
       //all entries for columns ID,Name
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->DONE();
-      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Bob'),2 => array('ID' => 3,'Name' => 'Lisa'),3 => array('ID' => 4,'Name' => 'Mint')));
+      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Fabian'),2 => array('ID' => 3,'Name' => 'Lisa'),3 => array('ID' => 4,'Name' => 'Mint')));
       $this->assertEquals($this->validateStatus(),true);
       //all entries from all columns
       $results = $this->Lake->SELECT(array('*'))->FROM('Users')->DONE();
-      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Bob'),2 => array('ID' => 3,'Name' => 'Lisa'),3 => array('ID' => 4,'Name' => 'Mint')));
+      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Fabian'),2 => array('ID' => 3,'Name' => 'Lisa'),3 => array('ID' => 4,'Name' => 'Mint')));
       $this->assertEquals($this->validateStatus(),true);
       //DELETE by ID
       $this->Lake->DELETE()->FROM('Users')->WHERE(array('ID' => $insertID))->VAR('i')->DONE();
