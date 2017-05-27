@@ -222,6 +222,9 @@ class Lake {
   private function cleanUP() {
     $this->type = NULL;
     $this->insert = NULL;
+    $this->update = NULL;
+    $this->set = NULL;
+    $this->setRaw = NULL;
     $this->select = NULL;
     $this->into = NULL;
     $this->intoRaw = NULL;
@@ -229,6 +232,7 @@ class Lake {
     $this->where = NULL;
     $this->whereRaw = NULL;
     $this->var = NULL;
+    $this->sqlRaw = NULL;
   }
 
   public function buildPlaceHolders($data) {
