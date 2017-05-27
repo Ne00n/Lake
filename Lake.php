@@ -145,9 +145,8 @@ class Lake {
       while ($row = $result->fetch_assoc()) {
         $response[] = $row;
       }
-      $stmt->close();
 
-      $this->cleanUP();
+      $this->cleanUP($stmt);
       return $response;
     case 'insert':
       //INSERT REQUEST
@@ -163,9 +162,8 @@ class Lake {
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
       $insertID = $this->Database->insert_id;
-      $stmt->close();
 
-      $this->cleanUP();
+      $this->cleanUP($stmt);
       return $insertID;
     case 'update':
       //UPDATE REQUEST
@@ -183,9 +181,8 @@ class Lake {
 
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
-      $stmt->close();
 
-      $this->cleanUP();
+      $this->cleanUP($stmt);
       break;
     case 'delete':
       //DELETE REQUEST
@@ -203,9 +200,8 @@ class Lake {
 
       $result = $stmt->execute();
       if (false==$result) { $this->success = false; $this->errors[] = 'execute() failed: ' . $this->Database->error; break; }
-      $stmt->close();
 
-      $this->cleanUP();
+      $this->cleanUP($stmt);
       break;
     }
   }
@@ -219,7 +215,8 @@ class Lake {
     return $resultParams;
   }
 
-  private function cleanUP() {
+  private function cleanUP($stmt) {
+    $stmt->close();
     $this->type = NULL;
     $this->insert = NULL;
     $this->update = NULL;
