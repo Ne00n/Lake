@@ -1,4 +1,5 @@
 <?php
+
 class Lake {
 
   private $dbHost;
@@ -96,13 +97,13 @@ class Lake {
     return $this;
   }
 
-  public function WHERE($input) {
+  public function WHERE($input,$param = '') {
     $i = 1;
     foreach ($input as $key => $value) {
       if ($i == count($input)) {
-        $this->where .= $key.' = ?';
+        $this->where .= $key.' '.(!empty($param) ? $param : '').'= ?';
       } else {
-        $this->where .= $key.' = ? AND ';
+        $this->where .= $key.' '.(!empty($param) ? $param : '').'= ? AND ';
       }
       $i++;
       $this->whereRaw[] = $value;
@@ -112,6 +113,11 @@ class Lake {
 
   public function OR() {
     $this->where .= ' OR ';
+    return $this;
+  }
+
+  public function AND() {
+    $this->where .= ' AND ';
     return $this;
   }
 
@@ -229,7 +235,6 @@ class Lake {
     $this->where = NULL;
     $this->whereRaw = NULL;
     $this->var = NULL;
-    $this->sqlRaw = NULL;
   }
 
   public function buildPlaceHolders($data) {
@@ -261,4 +266,5 @@ class Lake {
   }
 
 }
+
 ?>
