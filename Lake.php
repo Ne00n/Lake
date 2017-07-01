@@ -156,7 +156,7 @@ class Lake {
       return $response;
     case 'insert':
       //INSERT REQUEST
-      $sql = "INSERT INTO ".$this->insert."(".$this->into.") VALUES (".$this->buildPlaceHolders($this->into).")";
+      $sql = "INSERT INTO ".$this->insert."(".$this->into.") VALUES (".$this->buildPlaceHolders($this->intoRaw).")";
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
