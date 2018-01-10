@@ -21,6 +21,7 @@ class Lake {
   private $intoRaw;
   private $from;
   private $where;
+  private $orderby;
   private $whereRaw;
   private $var;
   private $sqlRaw;
@@ -97,6 +98,16 @@ class Lake {
     return $this;
   }
 
+  public function JOIN($join,$table) {
+    $this->from .= ' '.$join.' '.$table;
+    return $this;
+  }
+
+  public function ON($table1,$table2) {
+    $this->from .= ' ON '.$table1.' = '.$table2;
+    return $this;
+  }
+
   public function WHERE($input,$param = '') {
     $i = 1;
     foreach ($input as $key => $value) {
@@ -108,6 +119,11 @@ class Lake {
       $i++;
       $this->whereRaw[] = $value;
     }
+    return $this;
+  }
+
+  public function ORDERBY($input,$sort) {
+    $this->orderby .= 'ORDER BY '.$input.' '.$sort;
     return $this;
   }
 
@@ -133,6 +149,7 @@ class Lake {
       //SELECT REQUEST
       $sql = "SELECT ".$this->select." FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
+      if (!empty($this->orderby)) { $sql .= " ".$this->orderby; }
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
@@ -235,6 +252,7 @@ class Lake {
     $this->where = NULL;
     $this->whereRaw = NULL;
     $this->var = NULL;
+    $this->orderby = NULL;
   }
 
   public function buildPlaceHolders($data) {
