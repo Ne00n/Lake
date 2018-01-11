@@ -80,3 +80,5 @@ Currently Support for:
 - UPDATE
 - DELETE
 - WHERE/OR/AND
+- ORDERBY
+- JOIN
