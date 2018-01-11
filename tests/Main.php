@@ -79,6 +79,11 @@
       $this->assertEquals($this->validateStatus(),true);
     }
 
+    public function tearDown() {
+      $stmt = $this->Lake->get()->prepare("TRUNCATE TABLE `Users`");
+		  $stmt->execute();
+    }
+
   }
 
 ?>
