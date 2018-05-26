@@ -22,6 +22,7 @@ class Lake {
   private $from;
   private $where;
   private $orderby;
+  private $groupby;
   private $whereRaw;
   private $var;
   private $sqlRaw;
@@ -122,8 +123,13 @@ class Lake {
     return $this;
   }
 
-  public function ORDERBY($input,$sort) {
+  public function ORDERBY($input,$sort = '') {
     $this->orderby .= 'ORDER BY '.$input.' '.$sort;
+    return $this;
+  }
+
+  public function GROUPBY($input) {
+    $this->groupby .= 'GROUP BY '.$input;
     return $this;
   }
 
@@ -150,6 +156,7 @@ class Lake {
       $sql = "SELECT ".$this->select." FROM ".$this->from;
       if (!empty($this->where)) { $sql .= " WHERE ".$this->where; }
       if (!empty($this->orderby)) { $sql .= " ".$this->orderby; }
+      if (!empty($this->groupby)) { $sql .= " ".$this->groupby; }
       $this->sqlRaw = $sql;
       $stmt = $this->Database->prepare($sql);
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
@@ -253,6 +260,7 @@ class Lake {
     $this->whereRaw = NULL;
     $this->var = NULL;
     $this->orderby = NULL;
+    $this->groupby = NULL;
   }
 
   public function buildPlaceHolders($data) {
