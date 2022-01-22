@@ -163,7 +163,7 @@ class Lake {
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams($this->whereRaw);
-        $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
+        $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
@@ -186,7 +186,7 @@ class Lake {
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
 
       $resultParams = $this->generateParams($this->intoRaw);
-      $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
+      $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
       if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
 
       $result = $stmt->execute();
@@ -205,7 +205,7 @@ class Lake {
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams(array_merge($this->setRaw,$this->whereRaw));
-        $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
+        $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
@@ -224,7 +224,7 @@ class Lake {
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams($this->whereRaw);
-        $result = call_user_func_array(array($stmt, 'bind_param'), $resultParams);
+        $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
@@ -237,12 +237,11 @@ class Lake {
   }
 
   private function generateParams($input) {
-    $values = array();
+    $values = array(); 
     foreach($input as $key => $value) {
-        $values[$key] = &$input[$key];
+        $values[] = $value;
     }
-    $resultParams = array_merge($this->var,$values);
-    return $resultParams;
+    return $values;
   }
 
   private function cleanUP($stmt) {

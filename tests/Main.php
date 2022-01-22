@@ -7,7 +7,7 @@
 
     private $Lake;
 
-    public function setUp() {
+    public function setUp(): void {
       $this->Lake = new Lake('127.0.0.1','lake','lake','lake');
       if ($this->Lake->getSuccess() === false) {
         die('MySQL Connection failed');
@@ -116,7 +116,7 @@
       $this->assertEquals($this->expectedSQL("SELECT ID FROM Users"),true);
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
       $stmt = $this->Lake->get()->prepare("TRUNCATE TABLE `Users`");
 		  $stmt->execute();
     }
