@@ -43,6 +43,11 @@ class Lake {
       }
   }
 
+  private function Reconnect() {
+    unset($this->Database);
+    $this->initDB();
+  }
+
   public function INSERT($input) {
     $this->type = 'insert';
     $this->insert = $input;
@@ -149,6 +154,7 @@ class Lake {
   }
 
   public function DONE() {
+    if (!$this->Database->ping()) { $this->Reconnect(); }
     $response = array();
     switch ($this->type) {
     case 'select':
