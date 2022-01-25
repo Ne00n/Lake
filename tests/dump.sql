@@ -1,9 +1,11 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 CREATE TABLE `Users` (
   `ID` int(11) NOT NULL,
-  `Name` varchar(50) NOT NULL
+  `Name` varchar(50) NOT NULL,
+  `Age` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -13,3 +15,4 @@ ALTER TABLE `Users`
 
 ALTER TABLE `Users`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

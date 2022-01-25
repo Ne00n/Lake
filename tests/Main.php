@@ -30,22 +30,22 @@
 
     public function testComponents() {
       //INSERT
-      $insertID = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Test'))->VAR('s')->DONE();
+      $insertID = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Test','Age' => 20))->VAR('si')->DONE();
       $this->assertEquals($insertID,1);
       $this->assertEquals($this->validateStatus(),true);
-      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name) VALUES (?)"),true);
-      $insertIDSecond = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Bob'))->VAR('s')->DONE();
+      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name,Age) VALUES (?,?)"),true);
+      $insertIDSecond = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Bob','Age' => 22))->VAR('si')->DONE();
       $this->assertEquals($insertIDSecond,2);
       $this->assertEquals($this->validateStatus(),true);
-      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name) VALUES (?)"),true);
-      $insertIDThird = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Lisa'))->VAR('s')->DONE();
+      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name,Age) VALUES (?,?)"),true);
+      $insertIDThird = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Lisa','Age' => 23))->VAR('si')->DONE();
       $this->assertEquals($insertIDThird,3);
       $this->assertEquals($this->validateStatus(),true);
-      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name) VALUES (?)"),true);
-      $insertIDFourth = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Mint'))->VAR('s')->DONE();
+      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name,Age) VALUES (?,?)"),true);
+      $insertIDFourth = $this->Lake->INSERT('Users')->INTO(array('Name' => 'Mint','Age' => 24))->VAR('si')->DONE();
       $this->assertEquals($insertIDFourth,4);
       $this->assertEquals($this->validateStatus(),true);
-      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name) VALUES (?)"),true);
+      $this->assertEquals($this->expectedSQL("INSERT INTO Users(Name,Age) VALUES (?,?)"),true);
 
       //SELECT, by ID OR Name
       $results = $this->Lake->SELECT(array('ID','Name'))->FROM('Users')->WHERE(array('ID' => $insertID))->OR()->WHERE(array('Name' => 'Test'))->VAR('is')->DONE();
@@ -78,7 +78,7 @@
 
       //all entries from all columns
       $results = $this->Lake->SELECT(array('*'))->FROM('Users')->DONE();
-      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test'),1 => array('ID' => 2,'Name' => 'Fabian'),2 => array('ID' => 3,'Name' => 'Lisa'),3 => array('ID' => 4,'Name' => 'Mint')));
+      $this->assertEquals($results,array(0 => array('ID' => 1,'Name' => 'Test','Age' => 20),1 => array('ID' => 2,'Name' => 'Fabian','Age' => 22),2 => array('ID' => 3,'Name' => 'Lisa','Age' => 23),3 => array('ID' => 4,'Name' => 'Mint','Age' => 24)));
       $this->assertEquals($this->validateStatus(),true);
       $this->assertEquals($this->expectedSQL("SELECT * FROM Users"),true);
 

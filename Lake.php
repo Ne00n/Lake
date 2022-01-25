@@ -186,7 +186,7 @@ class Lake {
       if (false==$stmt) { $this->success = false; $this->errors[] = 'prepare() failed: ' . $this->Database->error; break; }
 
       $resultParams = $this->generateParams($this->intoRaw);
-      $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
+      $result = $stmt->bind_param(...$this->var, ...$resultParams);
       if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
 
       $result = $stmt->execute();
@@ -205,7 +205,7 @@ class Lake {
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams(array_merge($this->setRaw,$this->whereRaw));
-        $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
+        $result = $stmt->bind_param(...$this->var, ...$resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
@@ -224,7 +224,7 @@ class Lake {
 
       if (!empty($this->whereRaw)) {
         $resultParams = $this->generateParams($this->whereRaw);
-        $result = $stmt->bind_param(str_repeat('s', count($resultParams)), ...$resultParams);
+        $result = $stmt->bind_param(...$this->var, ...$resultParams);
         if (false==$result) { $this->success = false; $this->errors[] = 'bind_param() failed: ' . $this->Database->error; break; }
       }
 
